@@ -1,14 +1,69 @@
 ﻿@{
     Layout = "~/_Layout.cshtml";
     Page.Title = "Exercise01: Basic fun for all Processing";
+    var submit = Request.Form["submit"];
+    var reset = Request.Form["reset"];
+    var buttonpressed = Request.Form["formButton"];
+    var choice = Request.Form["Meal items"];
+    char[] delimiter = { ',' };
 }
 @section head{
-    <link href="~/Content/myStyleSheet.css" rel="stylesheet" />}
+    <link href="~/Content/myStyleSheet.css" rel="stylesheet" />
+}
 @section banner{
     <span style="font-size:xx-large"><strong>@Page.Title</strong></span>}
 <div>
-    <p>this is some text on the page</p>
+    <p>Exercise01: Basic form Processing</p>
 </div>
+
+
+@if (IsPost)
+{
+    if (buttonpressed.Equals("submit"))
+    {
+        <p>@submit, I see that you have the following meal entries:</p>
+        <p>
+            <ul>
+                @foreach (var platform in choice.Split(delimiter))
+                {
+                    <li>@platform</li>
+                }
+            </ul>
+        </p>
+    }
+    else if (choice.IsEmpty())
+    {
+        <p>Make at least one selection</p>
+    }
+    else if (submit.IsEmpty())
+    {
+        <p>Please input your name</p>
+    }
+    else
+    {
+
+    }
+}
+
+
+<form action="/" method="post">
+    <div class="row">
+        <div class="col-md-3">
+            <p>Customer Name:</p>
+            <input type="text" name="CustomerName" value="@submit" />
+        </div>
+        <div class="col-md-9">
+            <label>Choose your meal items</label> <br />
+            <input type="checkbox" name="meal" value="Steak" />Steak<br />
+            <input type="checkbox" name="meal" value="Seafood" />Seafood<br />
+            <input type="checkbox" name="meal" value="Vegetables" />Vegetables<br />
+        </div>
+    </div>
+    <div class="row">
+        <input type="submit" class="btn btn-primary" name="submit" value="submit" />
+        <input type="submit" class="btn" name="reset" value="reset" />
+    </div>
+</form>
 @section footer{
     <p>&copy CPSC1517, Nait Today's date is @DateTime.Today.ToLongDateString().</p> }
 
